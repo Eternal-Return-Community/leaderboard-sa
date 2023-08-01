@@ -11,7 +11,7 @@ func CalcElo(mmr int) string {
 	division := 4 - int(math.Floor(float64((mmr%1000)/250)))
 	rp := mmr % 250
 
-	if elo == "Mytiril" || elo == "Titan" || elo == "Immortal" {
+	if elo == "Mythril" || elo == "Titan" || elo == "Immortal" {
 		return fmt.Sprintf("%s - RP: %d", elo, mmr%6000)
 	}
 
@@ -34,7 +34,7 @@ func eloFormatted(mmr int) string {
 	} else if mmr >= 5000 && mmr < 6000 {
 		elo = "Diamante"
 	} else if mmr >= 6000 && mmr < 7000 {
-		elo = "Mytiril"
+		elo = "Mythril"
 	} else if mmr >= 7000 && mmr < 8000 {
 		elo = "Titan"
 	} else if mmr >= 8000 {
