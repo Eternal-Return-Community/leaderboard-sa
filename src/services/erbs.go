@@ -57,12 +57,13 @@ func Erbs(nickname string) structs.RankedInfo {
 
 	//Pega as informações da ranked do usuário.
 	var ranked structs.Ranked
-	err = json.NewDecoder(strings.NewReader(Client(fmt.Sprintf("/rank/%d/18/3", userNum.User.UserNum)))).Decode(&ranked)
+	err = json.NewDecoder(strings.NewReader(Client(fmt.Sprintf("/rank/%d/19/3", userNum.User.UserNum)))).Decode(&ranked)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	return structs.RankedInfo{
+		Code:     ranked.Code,
 		Mmr:      ranked.UserRank.Mmr,
 		Elo:      utils.CalcElo(ranked.UserRank.Mmr),
 		Rank:     ranked.UserRank.Rank,
