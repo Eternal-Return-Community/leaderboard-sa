@@ -7,6 +7,7 @@ type ER_PlayerInfo struct {
 }
 
 type Ranked struct {
+	Code     int `json:"code"`
 	UserRank struct {
 		UserNum  int    `json:"userNum"`
 		Mmr      int    `json:"mmr"`
@@ -16,6 +17,7 @@ type Ranked struct {
 }
 
 type RankedInfo struct {
+	Code     int    `json:"code"`
 	Mmr      int    `json:"mmr"`
 	Elo      string `json:"elo"`
 	Rank     int    `json:"rank"`
