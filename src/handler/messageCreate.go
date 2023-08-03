@@ -29,7 +29,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.HasPrefix(m.Content, prefix) {
+	if strings.HasPrefix(m.Content, prefix+"ranking") {
 		arg := strings.TrimPrefix(m.Content, prefix+"ranking")
 		nickname := strings.TrimSpace(arg)
 
