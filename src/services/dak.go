@@ -8,8 +8,9 @@ import (
 	"net/http"
 )
 
-const (
-	url = "https://er.dakgg.io/v1/leaderboard?page=1&seasonKey=PRE_SEASON_10&serverName=Sao+Paulo&teamMode=SQUAD"
+var (
+	seasonID = "10"
+	url      = fmt.Sprintf("https://er.dakgg.io/v1/leaderboard?page=1&seasonKey=SEASON_%s&serverName=Sao+Paulo&teamMode=SQUAD&hl=en", seasonID)
 )
 
 func Dak() []structs.PlayerInfo {
@@ -40,6 +41,43 @@ func Dak() []structs.PlayerInfo {
 	}
 
 	return players
+}
+
+func ShowPlayers(nickname string) []structs.TeamModeSummary {
+	refresh(nickname)
+	resp, err := http.Get(fmt.Sprintf("https://dak.gg/er/_next/data/MgiH6rT0nezahHCKG_Q4y/players/%s.json?teamMode=ALL&season=SEASON_%s&name=%s&hl=en", nickname, seasonID, nickname))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer resp.Body.Close()
+	var info structs.ServerRanking
+	err = json.NewDecoder(resp.Body).Decode(&info)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return info.PageProps.Data.TeamModeSummary
+
+}
+
+func refresh(nickname string) {
+
+	resp, err := http.Get(fmt.Sprintf("https://er.dakgg.io/v1/players/%s/renew", nickname))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer resp.Body.Close()
+
+	//ignore this code
+	/*
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+	*/
+
 }
 
 func min(a, b int) int {

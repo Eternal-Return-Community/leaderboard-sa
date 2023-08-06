@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	channelID = "1129836224681615380"
+	channelID = "1131439928631361617"
 	prefix    = "!"
 )
 
@@ -41,5 +41,4 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSendEmbedReply(m.ChannelID, embeds.Ranking(nickname), m.Reference())
 
 	}
-
 }

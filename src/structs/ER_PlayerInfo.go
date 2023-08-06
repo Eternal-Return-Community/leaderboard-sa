@@ -1,25 +1,41 @@
 package structs
 
-type ER_PlayerInfo struct {
-	User struct {
-		UserNum int `json:"userNum"`
-	}
+type ServerRanking struct {
+	PageProps PageProps `json:"pageProps"`
 }
 
-type Ranked struct {
-	Code     int `json:"code"`
-	UserRank struct {
-		UserNum  int    `json:"userNum"`
-		Mmr      int    `json:"mmr"`
-		Nickname string `json:"nickname"`
-		Rank     int    `json:"rank"`
-	}
+type PageProps struct {
+	Data Data `json:"data"`
 }
 
-type RankedInfo struct {
-	Code     int    `json:"code"`
-	Mmr      int    `json:"mmr"`
-	Elo      string `json:"elo"`
-	Rank     int    `json:"rank"`
-	Nickname string `json:"nickname"`
+type Data struct {
+	TeamModeSummary []TeamModeSummary `json:"teamModeSummary"`
+}
+
+type TeamModeSummary struct {
+	TeamMode struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Type string `json:"type"`
+	} `json:"teamMode"`
+
+	PlayerTier struct {
+		MMR       int    `json:"mmr"`
+		TierType  int    `json:"tierType"`
+		TierGrade int    `json:"tierGrade"`
+		LP        int    `json:"lp"`
+		Name      string `json:"name"`
+		SeasonID  int    `json:"seasonId"`
+		ImageURL  string `json:"imageUrl"`
+	} `json:"playerTier"`
+
+	GlobalRanking struct {
+		Rank int `json:"rank"`
+	} `json:"globalRanking"`
+
+	ServerRanking struct {
+		Rank       int     `json:"rank"`
+		RankRate   float64 `json:"rankRate"`
+		ServerName string  `json:"serverName"`
+	} `json:"serverRanking"`
 }
