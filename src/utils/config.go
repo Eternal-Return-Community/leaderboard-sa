@@ -23,10 +23,19 @@ func token() string {
 	return ""
 }
 
+func key() string {
+	if key := os.Getenv("KEY"); key != "" {
+		return key
+	}
+	log.Fatal("Key is missing .env!")
+	return ""
+}
+
 func Env() structs.Env {
 	config()
 
 	return structs.Env{
 		Token: "Bot " + token(),
+		Key:   key(),
 	}
 }

@@ -63,7 +63,6 @@ func Erbs(nickname string) structs.RankedInfo {
 	}
 
 	return structs.RankedInfo{
-		Code:     ranked.Code,
 		Mmr:      ranked.UserRank.Mmr,
 		Elo:      utils.CalcElo(ranked.UserRank.Mmr),
 		Rank:     ranked.UserRank.Rank,

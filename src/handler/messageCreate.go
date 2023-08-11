@@ -41,4 +41,5 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSendEmbedReply(m.ChannelID, embeds.Ranking(nickname), m.Reference())
 
 	}
+
 }
