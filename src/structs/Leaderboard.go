@@ -1,15 +1,17 @@
 package structs
 
-type Leaderboard struct {
-	Leaderboards []struct {
-		UserNum  int    `json:"usernum"`
-		Nickname string `json:"nickname"`
-		Mmr      int    `json:"mmr"`
-	}
+type Data struct {
+	PlayerTierByUserNum PlayerTierData    `json:"playerTierByUserNum"`
+	Leaderboards        []LeaderboardInfo `json:"leaderboards"`
+}
+
+type LeaderboardInfo struct {
+	UserNum  int    `json:"usernum"`
+	Nickname string `json:"nickname"`
+	Mmr      int    `json:"mmr"`
 }
 
 type PlayerTierData map[int]PlayerTierInfo
-
 type PlayerTierInfo struct {
 	Mmr       int    `json:"mmr"`
 	TierType  int    `json:"tierType"`
@@ -18,10 +20,6 @@ type PlayerTierInfo struct {
 	Name      string `json:"name"`
 	SeasonId  int    `json:"seasonId"`
 	ImageUrl  string `json:"imageUrl"`
-}
-
-type APIResponse struct {
-	PlayerTierByUserNum PlayerTierData `json:"playerTierByUserNum"`
 }
 
 type PlayerInfo struct {

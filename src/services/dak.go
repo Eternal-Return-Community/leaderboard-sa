@@ -15,11 +15,6 @@ const (
 )
 
 func Dak() []structs.PlayerInfo {
-	err := fetchPlayerEloInfo()
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	}
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -28,19 +23,21 @@ func Dak() []structs.PlayerInfo {
 	}
 
 	defer resp.Body.Close()
-	var leader structs.Leaderboard
+	var leader structs.Data
 	err = json.NewDecoder(resp.Body).Decode(&leader)
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
 
+	fmt.Println(leader.Leaderboards)
+
 	size := min(len(leader.Leaderboards), 10)
 	players := make([]structs.PlayerInfo, size)
 
 	for i := 0; i < size; i++ {
 		userNum := leader.Leaderboards[i].UserNum
-		elo, found := playerEloInfo[userNum]
+		elo, found := leader.PlayerTierByUserNum[userNum]
 		if !found {
 			fmt.Printf("User with UserNum %d not found\n", userNum)
 			continue
@@ -55,23 +52,6 @@ func Dak() []structs.PlayerInfo {
 	}
 
 	return players
-}
-
-func fetchPlayerEloInfo() error {
-	resp, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	var response structs.APIResponse
-	err = json.NewDecoder(resp.Body).Decode(&response)
-	if err != nil {
-		return err
-	}
-
-	playerEloInfo = response.PlayerTierByUserNum
-	return nil
 }
 
 func min(a, b int) int {
