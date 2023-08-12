@@ -3,11 +3,10 @@ package utils
 import (
 	"fmt"
 	"math"
-	"strconv"
 )
 
-func CalcElo(mmr int) string {
-	elo := eloFormatted(mmr)
+func CalcElo(mmr int, rank int) string {
+	elo := eloFormatted(mmr, rank)
 	division := 4 - int(math.Floor(float64((mmr%1000)/250)))
 	rp := mmr % 250
 
@@ -15,10 +14,10 @@ func CalcElo(mmr int) string {
 		return fmt.Sprintf("%s - RP: %d", elo, mmr%6000)
 	}
 
-	return elo + " " + strconv.Itoa(division) + " - RP: " + strconv.Itoa(rp)
+	return fmt.Sprintf("%s %d - %d", elo, division, rp)
 }
 
-func eloFormatted(mmr int) string {
+func eloFormatted(mmr int, rank int) string {
 
 	elo := ""
 	if mmr > 0 && mmr < 1000 {
@@ -33,11 +32,11 @@ func eloFormatted(mmr int) string {
 		elo = "Platina"
 	} else if mmr >= 5000 && mmr < 6000 {
 		elo = "Diamante"
-	} else if mmr >= 6000 && mmr < 7000 {
+	} else if mmr >= 6000 && rank > 700 {
 		elo = "Mythril"
-	} else if mmr >= 7000 && mmr < 8000 {
+	} else if rank >= 201 && rank < 700 {
 		elo = "Titan"
-	} else if mmr >= 8000 {
+	} else if rank <= 200 {
 		elo = "Immortal"
 	} else {
 		elo = "Sem Elo"
