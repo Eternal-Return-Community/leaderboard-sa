@@ -9,7 +9,7 @@ import (
 
 func Leaderboard() *discordgo.MessageEmbed {
 
-	info := services.Dak()
+	info, lp := services.Dak()
 
 	//Retornar a Embed de Error quando não possui nenhum jogador.
 	if len(info) == 0 {
@@ -27,9 +27,10 @@ func Leaderboard() *discordgo.MessageEmbed {
 	}
 
 	return &discordgo.MessageEmbed{
-		Title:  "Leaderboard (SQUAD) - Super Server SA",
-		Fields: fields,
-		Color:  0xA7C7E7,
+		Title:       "Leaderboard (SQUAD) - Super Server SA",
+		Description: fmt.Sprintf("* **LP** necessário para subir pro **Titan**: `%d` **|** **Immortal**: `%d`", lp.Titan, lp.Immortal),
+		Fields:      fields,
+		Color:       0xA7C7E7,
 		Footer: &discordgo.MessageEmbedFooter{
 			Text: "Você não está no TOP 10? use: !ranking <nickname>",
 		},

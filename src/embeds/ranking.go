@@ -24,7 +24,7 @@ func Ranking(nickname string) *discordgo.MessageEmbed {
 }
 
 func rank(top int) string {
-	if rank := top; rank == 0 {
+	if top == 0 {
 		return "N/D"
 	}
 	return strconv.Itoa(top)

@@ -3,6 +3,7 @@ package structs
 type Data struct {
 	PlayerTierByUserNum PlayerTierData    `json:"playerTierByUserNum"`
 	Leaderboards        []LeaderboardInfo `json:"leaderboards"`
+	Cutofss             []HighInfo        `json:"cutoffs"`
 }
 
 type LeaderboardInfo struct {
@@ -20,6 +21,17 @@ type PlayerTierInfo struct {
 	Name      string `json:"name"`
 	SeasonId  int    `json:"seasonId"`
 	ImageUrl  string `json:"imageUrl"`
+}
+
+type HighInfo struct {
+	TeamModeId int `json:"teamModeId"`
+	TierType   int `json:"tierType"`
+	Mmr        int `json:"mmr"`
+}
+
+type HighLP struct {
+	Titan    int
+	Immortal int
 }
 
 type PlayerInfo struct {
