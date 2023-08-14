@@ -34,7 +34,7 @@ func eloFormatted(mmr int, rank int) string {
 		elo = "Diamante"
 	} else if mmr >= 6000 && rank > 700 {
 		elo = "Mythril"
-	} else if rank >= 201 && rank < 700 {
+	} else if rank >= 201 && rank <= 700 {
 		elo = "Titan"
 	} else if rank <= 200 {
 		elo = "Immortal"
