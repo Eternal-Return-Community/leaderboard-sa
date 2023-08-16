@@ -14,7 +14,7 @@ func CalcElo(mmr int, rank int) string {
 		return fmt.Sprintf("%s - RP: %d", elo, mmr%6000)
 	}
 
-	return fmt.Sprintf("%s %d - %d", elo, division, rp)
+	return fmt.Sprintf("%s %d - RP: %d", elo, division, rp)
 }
 
 func eloFormatted(mmr int, rank int) string {

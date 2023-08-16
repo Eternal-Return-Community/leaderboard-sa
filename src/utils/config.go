@@ -35,7 +35,8 @@ func Env() structs.Env {
 	config()
 
 	return structs.Env{
-		Token: "Bot " + token(),
-		Key:   key(),
+		Token:  "Bot " + token(),
+		Key:    key(),
+		Prefix: "!",
 	}
 }
