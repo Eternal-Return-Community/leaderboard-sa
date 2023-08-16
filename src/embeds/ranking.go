@@ -12,6 +12,10 @@ func Ranking(nickname string) *discordgo.MessageEmbed {
 
 	info := services.Erbs(nickname)
 
+	if info.Code != 200 {
+		return Error(fmt.Sprintf("Servidor em manutenção. \nDurante a manutenção **API** fica indisponível para uso, tente mais tarde."))
+	}
+
 	if info.Nickname == "" {
 		return Error(fmt.Sprintf("**%s** não existe no banco de dados do **Eternal Return**", nickname))
 	}
