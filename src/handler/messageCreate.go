@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	channelID = "1131439928631361617"
+	channelID = "1129836224681615380"
 	prefix    = utils.Env().Prefix
 )
 
@@ -22,6 +22,7 @@ var (
 		"comandos":    commands.Comandos,
 		"patchnotes":  commands.Patchnotes,
 		"trello":      commands.Trello,
+		"dodge":       commands.Dodge,
 	}
 )
 
