@@ -5,33 +5,39 @@ import (
 	"image/color"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/fogleman/gg"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const (
-	template = "./src/assets/template.png"
-	final    = "./src/assets/final.png"
+	pathCharacters = "./src/assets/characters"
+	template       = "./src/assets/template.png"
+	final          = "./src/assets/final.png"
 )
 
 func Dodge(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 
-	if len(args) < 2 {
-		s.ChannelMessageSendReply(m.ChannelID, "Adicione um nickname.", m.Reference())
+	if len(args) < 3 {
+		s.ChannelMessageSendReply(m.ChannelID, "Digite o nome de um personagem e um nickname. \nExemplo: **!dodge aya skye**", m.Reference())
 		return
 	}
 
-	nickname := args[1]
+	character := strings.ToLower(args[1])
+	nickname := args[2]
+
 	if len(nickname) >= 16 {
 		s.ChannelMessageSendReply(m.ChannelID, "Nickname precisa ter até 16 digitos.", m.Reference())
 		return
 	}
 
-	generateImage(nickname, s, m)
+	generateImage(character, nickname, s, m)
 }
 
-func generateImage(nickname string, s *discordgo.Session, m *discordgo.MessageCreate) {
+func generateImage(character string, nickname string, s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	message, _ := s.ChannelMessageSendReply(m.ChannelID, "Imagem está sendo gerada. Aguarde alguns segundos.", m.Reference())
 
@@ -47,7 +53,24 @@ func generateImage(nickname string, s *discordgo.Session, m *discordgo.MessageCr
 		log.Fatal(err)
 	}
 
+	characters, err := loadCharacter(character, s, m)
+	if err != nil {
+		if len(characters) == 0 {
+			s.ChannelMessageEdit(m.ChannelID, message.ID, "Atualmente não possui nenhuma imagem de personagem disponível. \nEnvie uma mensagem para <@811913211737014322> avisando sobre a situação.")
+			return
+		}
+
+		s.ChannelMessageEdit(m.ChannelID, message.ID, fmt.Sprintf("**%s** não foi encontrado. Digite o nome de outro personagem. \nPersonagens: **%s**", character, characters))
+		return
+	}
+
+	characterImage, err := gg.LoadImage(pathCharacters + characters)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	dc.DrawString(nickname, 200.0, 500.0)
+	dc.DrawImage(characterImage, -10.0, 320.0)
 
 	err = dc.SavePNG(final)
 	if err != nil {
@@ -91,4 +114,28 @@ func loadImage(author string) *discordgo.MessageSend {
 	}
 
 	return &image
+}
+
+func loadCharacter(c string, s *discordgo.Session, m *discordgo.MessageCreate) (string, error) {
+	list, err := os.ReadDir(pathCharacters)
+	if err != nil {
+		s.ChannelMessageSendReply(m.ChannelID, "Ocorreu um erro ao carregar a lista de personagens.", m.Reference())
+	}
+
+	var png string
+	var characterList []string
+
+	for _, character := range list {
+		if strings.Replace(character.Name(), ".png", "", 1) == c {
+			png = character.Name()
+			break
+		}
+		characterList = append(characterList, cases.Title(language.Und, cases.NoLower).String(strings.Replace(character.Name(), ".png", "", 1)))
+	}
+
+	if len(png) == 0 {
+		return strings.Join(characterList, ", "), fmt.Errorf(c)
+	}
+
+	return "/" + png, nil
 }
