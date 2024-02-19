@@ -4,15 +4,14 @@ import (
 	"erbs/src/commands"
 	"erbs/src/structs"
 	"erbs/src/utils"
-	"fmt"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 var (
-	channelID = "1129836224681615380"
-	prefix    = utils.Env().Prefix
+	//channelID = "1129836224681615380"
+	prefix = utils.Env().Prefix
 )
 
 var (
@@ -37,10 +36,12 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	for commandList, commandRun := range Commands {
 		if command == commandList {
-			if m.ChannelID != channelID {
-				s.ChannelMessageSendReply(m.ChannelID, fmt.Sprintf("Execute o comando no canal <#%s>", channelID), m.Reference())
-				return
-			}
+			/*
+				if m.ChannelID != channelID {
+					s.ChannelMessageSendReply(m.ChannelID, fmt.Sprintf("Execute o comando no canal <#%s>", channelID), m.Reference())
+					return
+				}
+			*/
 			commandRun(s, m, args)
 			return
 		}

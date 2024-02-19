@@ -8,11 +8,7 @@ import (
 	"net/http"
 )
 
-var playerEloInfo map[int]structs.PlayerTierInfo
-
-const (
-	url = "https://er.dakgg.io/v1/leaderboard?page=1&seasonKey=SEASON_10&serverName=Sao+Paulo&teamMode=SQUAD"
-)
+const url = "https://er-node.dakgg.io/api/v0/leaderboard?page=1&seasonKey=SEASON_11&serverName=saopaulo&teamMode=SQUAD&hl=en"
 
 func Dak() ([]structs.PlayerInfo, structs.HighLP) {
 
@@ -30,7 +26,7 @@ func Dak() ([]structs.PlayerInfo, structs.HighLP) {
 		return nil, structs.HighLP{}
 	}
 
-	size := min(len(leader.Leaderboards), 10)
+	size := len(leader.Leaderboards[0:10])
 	players := make([]structs.PlayerInfo, size)
 	lp := highLP(leader)
 
@@ -62,11 +58,4 @@ func highLP(leader structs.Data) structs.HighLP {
 		Immortal: immortal.Mmr % 250,
 	}
 
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
